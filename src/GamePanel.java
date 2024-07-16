@@ -23,6 +23,7 @@ public class GamePanel extends JPanel implements ActionListener {
     Timer timer;
     Random random;
 
+
     GamePanel(){
         random = new Random();
         this.setPreferredSize(new Dimension(SCREEN_WIDTH,SCREEN_HEIGHT));
@@ -35,7 +36,7 @@ public class GamePanel extends JPanel implements ActionListener {
     public void startGame(){
         newApple();
         running = true;
-        timer=new Timer(150,this);
+        timer=new Timer(DELAY,this);
         timer.start();
     }
 
@@ -77,8 +78,8 @@ public class GamePanel extends JPanel implements ActionListener {
     }
 
     public void newApple(){
-        appleLocationX = random.nextInt((int)SCREEN_WIDTH/UNIT_SIZE)*UNIT_SIZE;
-        appleLocationY = random.nextInt((int)SCREEN_HEIGHT/UNIT_SIZE)*UNIT_SIZE;
+        appleLocationX = random.nextInt(SCREEN_WIDTH/UNIT_SIZE)*UNIT_SIZE;
+        appleLocationY = random.nextInt(SCREEN_HEIGHT/UNIT_SIZE)*UNIT_SIZE;
     }
 
     public void move(){
@@ -118,8 +119,9 @@ public class GamePanel extends JPanel implements ActionListener {
     public void checkCollisions(){
         //checks head collides with body
         for(int i=bodyParts;i>0;i--){
-            if((x[0] == x[i]) && (y[0] == y[i])){
+            if ((x[0] == x[i]) && (y[0] == y[i])) {
                 running = false;
+                break;
             }
         }
         //if head touches border
@@ -137,11 +139,10 @@ public class GamePanel extends JPanel implements ActionListener {
         }
         if(!running){
             timer.stop();
+            repaint();
         }
-
-
-
     }
+
     public void gameOver(Graphics g){
         g.setColor(Color.red);
         g.setFont(new Font("Ink Free", Font.BOLD, 75));
